@@ -14,18 +14,6 @@
 
 #include "PPM.h"
 
-namespace
-{
-    void printMatrix(RGB **matrix, int lines, int columns)
-    {
-        for (int i = 0; i < lines; i++)
-            for (int j = 0; j < columns; j++)
-            {
-                std::cout << "Matrix[" << i << "][" << j << "]" << matrix[i][j].red << matrix[i][j].green << matrix[i][j].blue << std::endl;
-            }
-    }
-}
-
 PPM::PPM() : m_lines(0), m_columns(0), m_maxValue(0)
 {
     // Cria a matrix.
