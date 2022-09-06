@@ -13,11 +13,16 @@
 #ifndef PGM_H
 #define PGM_H
 
-#include "PortableMap.h"
 #include "PPM.h"
 
-class PGM : public PortableMap
+class PGM
 {
+private:
+    int **m_matrix;
+    int m_lines;
+    int m_columns;
+    int m_maxValue;
+
 public:
     /**
      * @brief Contrutor da classe.
@@ -27,12 +32,12 @@ public:
     /**
      * @brief Contrutor da classe.
      */
-    PGM(PPM& ppm);
+    PGM(PPM &ppm);
 
     /**
      * @brief Destrutor da classe.
      */
-    ~PGM() = default;
+    ~PGM();
 
     /**
      * @brief Cria a imagem PGM a partir de uma PPM.
@@ -40,7 +45,7 @@ public:
      *
      * @param ppm Imagem do tipo PPM, usada como base.
      */
-    void generatePGM(const PPM &ppm);
+    void generatePGM(PPM &ppm);
 
     /**
      * @brief Escreve no arquivo as informações graficas armazenadas.

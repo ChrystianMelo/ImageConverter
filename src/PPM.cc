@@ -6,18 +6,31 @@
 
 namespace
 {
-    void printMatrix(int **matrix, int lines, int columns)
+    void printMatrix(RGB **matrix, int lines, int columns)
     {
         for (int i = 0; i < lines; i++)
             for (int j = 0; j < columns; j++)
             {
-                std::cout << "Matrix[" << i << "][" << j << "]" << matrix[i][j] << std::endl;
+                std::cout << "Matrix[" << i << "][" << j << "]" << matrix[i][j].red << matrix[i][j].green << matrix[i][j].blue << std::endl;
             }
     }
 }
 
-PPM::PPM() : PortableMap()
+PPM::PPM() : m_lines(0), m_columns(0), m_maxValue(0)
 {
+    // Cria a matrix.
+    m_matrix = (RGB **)malloc(m_lines * sizeof(RGB *));
+    for (int i = 0; i < m_lines; i++)
+        m_matrix[i] = (RGB *)malloc(m_columns * sizeof(RGB));
+}
+
+PPM::~PPM()
+{
+    for (int i = 0; i < m_lines; i++)
+        delete m_matrix[i];
+    delete m_matrix;
+
+    std::cout << "Mem is free" << std::endl;
 }
 
 void PPM::readFile(const fs::path &file)
@@ -46,9 +59,9 @@ void PPM::readFile(const fs::path &file)
     m_maxValue = stoi(maxValue);
 
     // Cria a matrix.
-    m_matrix = (int **)malloc(m_lines * sizeof(int *));
+    m_matrix = (RGB **)malloc(m_lines * sizeof(RGB *));
     for (int i = 0; i < m_lines; i++)
-        m_matrix[i] = (int *)malloc(m_columns * sizeof(int));
+        m_matrix[i] = (RGB *)malloc(m_columns * sizeof(RGB));
 
     // Lê a matrix.
     std::string lines[m_lines];
@@ -58,7 +71,7 @@ void PPM::readFile(const fs::path &file)
     // Preenche a matrix
     fillMatrix(lines);
 
-    printMatrix(m_matrix, m_lines, m_columns);
+    //printMatrix(m_matrix, m_lines, m_columns);
 
     // Finaliza a leitura do arquivo.
     myfile.close();
@@ -72,8 +85,26 @@ void PPM::fillMatrix(std::string lines[])
         for (int j = 0; j < m_columns; j++)
         {
             std::size_t pos = lineN.find(" ");
-            m_matrix[i][j] = stoi(lineN.substr(0, pos));
+            int r = stoi(lineN.substr(0, pos));
             lineN = lineN.substr(pos + 1);
+
+            pos = lineN.find(" ");
+            int g = stoi(lineN.substr(0, pos));
+            lineN = lineN.substr(pos + 1);
+
+            pos = lineN.find(" ");
+            int b = stoi(lineN.substr(0, pos));
+            lineN = lineN.substr(pos + 1);
+
+            m_matrix[i][j] = RGB(r, g, b);
         }
     }
 }
+
+const RGB &PPM::getRGB(int i, int j) { return m_matrix[i][j]; }
+
+const int PPM::getLines() { return m_lines; }
+
+const int PPM::getColumns() { return m_columns; }
+
+const int PPM::getMaxValue() { return m_maxValue; }

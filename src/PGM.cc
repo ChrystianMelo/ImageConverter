@@ -1,28 +1,53 @@
 #include "PGM.h"
 #include <fstream>
+#include <cassert>
 
-PGM::PGM() : PortableMap()
+PGM::PGM() : m_lines(0), m_columns(0), m_maxValue(0)
 {
+    // Cria a matrix.
+    m_matrix = (int **)malloc(m_lines * sizeof(int *));
+    for (int i = 0; i < m_lines; i++)
+        m_matrix[i] = (int *)malloc(m_columns * sizeof(int));
 }
 
-PGM::PGM(PPM &ppm) : PortableMap(ppm.getLines(), ppm.getColumns(), ppm.getMaxValue())
+PGM::PGM(PPM &ppm) : m_lines(ppm.getLines()), m_columns(ppm.getColumns()), m_maxValue(ppm.getMaxValue())
 {
+    // Cria a matrix.
+    m_matrix = (int **)malloc(m_lines * sizeof(int *));
+    for (int i = 0; i < m_lines; i++)
+        m_matrix[i] = (int *)malloc(m_columns * sizeof(int));
+
+    generatePGM(ppm);
 }
+
+PGM::~PGM()
+{
+    for (int i = 0; i < m_lines; i++)
+        delete m_matrix[i];
+    delete m_matrix;
+
+    std::cout << "Mem is free" << std::endl;
+}
+
 /**
  * @brief Calcula o tom de cinza da imagem.
  *      𝑌 = (49/255) *(0.30R + 0.59G + 0.11B)
  * @return ** double
  */
-double calculateGrayTons(double r, double g, double b)
+float calculateGrayTons(double r, double g, double b)
 {
-    return (49 / 255) * ((0.3 * r) + (0.59 * g) + (0.11 * b));
+    return float(49.0f / 255.0f) * ((0.3f * r) + (0.59f * g) + (0.11f * b));
 }
 
-void PGM::generatePGM(const PPM &ppm)
+void PGM::generatePGM(PPM &ppm)
 {
     for (int i = 0; i < m_lines; i++)
         for (int j = 0; j < m_columns; j++)
-            m_matrix[i][j] = calculateGrayTons(0,0,0);
+        {
+            RGB rgb = ppm.getRGB(i, j);
+
+            m_matrix[i][j] = calculateGrayTons(rgb.red, rgb.green, rgb.blue);
+        }
 }
 
 void PGM::writeFile(const fs::path &file)
@@ -52,7 +77,7 @@ void PGM::writeFile(const fs::path &file)
         }
 
         // Fim da linha.
-        myfile << m_maxValue << std::endl;
+        myfile << std::endl;
     }
 
     myfile.close();

@@ -16,13 +16,26 @@
 #include <iostream>
 #include <filesystem>
 
-#include "PortableMap.h"
-
 namespace fs = std::filesystem;
 
-class PPM : public PortableMap
+class RGB
+{
+public:
+    int red;
+    int green;
+    int blue;
+
+    RGB(int r, int g, int b) : red(r), green(g), blue(b) {}
+};
+
+class PPM
 {
 private:
+    RGB **m_matrix;
+    int m_lines;
+    int m_columns;
+    int m_maxValue;
+
     void fillMatrix(std::string lines[]);
 
 public:
@@ -34,7 +47,7 @@ public:
     /**
      * @brief Desstrutor da classe
      */
-    ~PPM() = default;
+    ~PPM();
 
     /**
      * @brief Lê o arquivo com as informações graficas e armazena.
@@ -42,6 +55,13 @@ public:
      * @param file Arquivo com os dados especificados.
      */
     void readFile(const fs::path &file);
-};
 
+    const RGB &getRGB(int i, int j);
+
+    const int getLines();
+
+    const int getColumns();
+
+    const int getMaxValue();
+};
 #endif
