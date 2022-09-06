@@ -11,3 +11,6 @@ amostra de um espaço de cores. Imagens desse tipo são tipicamente compostas po
 de cinza, variando entre o preto como a menor intensidade e o branco como maior intensidade.
 Imagens em tons de cinza são geralmente resultado de um cálculo da intensidade da luz em cada
 pixel em cada faixa do espectro electromagnético (como, por exemplo, o espectro visível).
+
+A formula usada para conversão de valores RGB para tons de cinza foi 
+𝑌 = (49 / 255) * (0.30R + 0.59G + 0.11B)
