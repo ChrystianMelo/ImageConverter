@@ -1,4 +1,14 @@
-
+/**
+ * @file PPM.cc
+ * @author Chrystian Melo (meloo.chrys@gmail.com)
+ * @brief  Abstração para armazenar dados de arquivos graficos do tipo Portable Pixmap Format (PPM).
+ *         Read more : https://en.wikipedia.org/wiki/Netpbm#File_formats
+ * @version 0.1
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include <cassert>
 #include <fstream>
 
@@ -71,7 +81,7 @@ void PPM::readFile(const fs::path &file)
     // Preenche a matrix
     fillMatrix(lines);
 
-    //printMatrix(m_matrix, m_lines, m_columns);
+    // printMatrix(m_matrix, m_lines, m_columns);
 
     // Finaliza a leitura do arquivo.
     myfile.close();

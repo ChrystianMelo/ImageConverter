@@ -1,3 +1,14 @@
+/**
+ * @file PGM.cc
+ * @author Chrystian Melo (meloo.chrys@gmail.com)
+ * @brief  Abstração para armazenar dados de arquivos graficos do tipo Portable Graymap Format (PGM).
+ *         Read more : https://en.wikipedia.org/wiki/Netpbm#File_formats
+ * @version 0.1
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "PGM.h"
 #include <fstream>
 #include <cassert>

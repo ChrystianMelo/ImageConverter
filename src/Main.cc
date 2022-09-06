@@ -1,3 +1,14 @@
+/**
+ * @file Main.cc
+ * @author Chrystian Melo (meloo.chrys@gmail.com)
+ * @brief Classe principal do projeto.
+ * @version 0.1
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include <iostream>
 #include <cassert>
 #include "PPM.h"

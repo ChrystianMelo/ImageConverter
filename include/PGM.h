@@ -18,9 +18,24 @@
 class PGM
 {
 private:
+    /**
+     * @brief Matriz com os dados da imagem.
+     */
     int **m_matrix;
+
+    /**
+     * @brief Quantidade de linhas da matriz da imagem.
+     */
     int m_lines;
+
+    /**
+     * @brief Quantidade de colunas da matriz da imagem.
+     */
     int m_columns;
+
+    /**
+     * @brief Valor maximo presente na matrix. Os valores são sempre positivos e vairam entre 0 e m_maxValue
+     */
     int m_maxValue;
 
 public:
