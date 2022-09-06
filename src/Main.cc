@@ -10,7 +10,9 @@
  */
 
 #include <iostream>
-#include <cassert>
+
+#include "msgassert.h"
+
 #include "PPM.h"
 #include "PGM.h"
 
@@ -28,25 +30,23 @@
 int main(int argc, char *argv[])
 {
     // Por padrão, se espera 4 entradas.
-    assert(argc == 5);
+    erroAssert(argc > 2, "Numero de argumentos minimo para execução não atingido.");
 
-    std::string inputFilename(argv[1]);
-    assert(!inputFilename.empty());
+    fs::path inputFilename(argv[1]);
+    erroAssert(fs::exists(inputFilename), "O arquivo de entrada não é válido.");
 
     PPM ppm = PPM();
     ppm.readFile(inputFilename);
 
-    std::string outputFilename(argv[2]);
-    assert(!outputFilename.empty());
+    fs::path outputFilename(argv[2]);
+    erroAssert(!outputFilename.empty(), "O arquivo de entrada não é válido.");
 
     PGM pgm = PGM(ppm);
     pgm.writeFile(outputFilename);
 
     std::string logFilename(argv[3]);
-    assert(!logFilename.empty());
 
     std::string accessPattern(argv[4]);
-    assert(!accessPattern.empty());
 
     return 0;
 }

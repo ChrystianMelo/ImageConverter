@@ -9,9 +9,9 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include "PGM.h"
 #include <fstream>
-#include <cassert>
+
+#include "PGM.h"
 
 PGM::PGM() : m_lines(0), m_columns(0), m_maxValue(0)
 {
@@ -36,8 +36,6 @@ PGM::~PGM()
     for (int i = 0; i < m_lines; i++)
         delete m_matrix[i];
     delete m_matrix;
-
-    std::cout << "Mem is free" << std::endl;
 }
 
 /**

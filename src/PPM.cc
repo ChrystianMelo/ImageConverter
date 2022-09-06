@@ -9,8 +9,9 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include <cassert>
 #include <fstream>
+
+#include "msgassert.h"
 
 #include "PPM.h"
 
@@ -27,22 +28,18 @@ PPM::~PPM()
     for (int i = 0; i < m_lines; i++)
         delete m_matrix[i];
     delete m_matrix;
-
-    std::cout << "Mem is free" << std::endl;
 }
 
 void PPM::readFile(const fs::path &file)
 {
-    assert(fs::exists(file));
-
     // Lê o arquivo.
     std::ifstream myfile(file);
-    assert(myfile.is_open());
+    erroAssert(myfile.is_open(), "Não foi possivel abrir o arquivo.");
 
     // Lê o formato do arquivo de entrada.
     std::string format("");
     getline(myfile, format);
-    assert(format.compare("P3") == 0);
+    erroAssert(format.compare("P3") == 0, "Formato do arquivo de entrada não é do tipo PPM(tipo P3).");
 
     // Lê as configurações da matrix.
     std::string matrixConfigration("");
