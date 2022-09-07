@@ -32,7 +32,7 @@ public:
 };
 
 /**
- * @brief Definicação da classe.
+ * @brief Definicação da classe para armazenar dados de arquivos graficos do tipo PPF.
  */
 class PPM
 {

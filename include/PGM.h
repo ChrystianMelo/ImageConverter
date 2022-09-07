@@ -15,6 +15,10 @@
 
 #include "PPM.h"
 
+/**
+ * @brief Definicação da classe para armazenar dados de arquivos graficos do tipo PGM.
+ *
+ */
 class PGM
 {
 private:
