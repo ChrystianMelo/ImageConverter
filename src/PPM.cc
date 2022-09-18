@@ -12,6 +12,7 @@
 #include <fstream>
 
 #include "msgassert.h"
+#include "memlog.h"
 
 #include "PPM.h"
 
@@ -92,11 +93,17 @@ void PPM::fillMatrix(std::string lines[])
             lineN = lineN.substr(pos + 1);
 
             m_matrix[i][j] = RGB(r, g, b);
+            ESCREVEMEMLOG((long int)(&(m_matrix[i][j])), sizeof(RGB), i);
         }
     }
 }
 
-const RGB &PPM::getRGB(int i, int j) { return m_matrix[i][j]; }
+const RGB &PPM::getRGB(int i, int j)
+{
+    const RGB &value = m_matrix[i][j];
+    LEMEMLOG((long int)(&(m_matrix[i][j])), sizeof(RGB), i);
+    return value;
+}
 
 const int PPM::getLines() { return m_lines; }
 

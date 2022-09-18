@@ -11,6 +11,8 @@
  */
 #include <fstream>
 
+#include "memlog.h"
+
 #include "PGM.h"
 
 PGM::PGM() : m_lines(0), m_columns(0), m_maxValue(0)
@@ -56,6 +58,7 @@ void PGM::generatePGM(PPM &ppm)
             RGB rgb = ppm.getRGB(i, j);
 
             m_matrix[i][j] = calculateGrayTons(rgb.red, rgb.green, rgb.blue);
+            ESCREVEMEMLOG((long int)(&(m_matrix[i][j])), sizeof(int), i);
         }
 }
 
@@ -79,6 +82,7 @@ void PGM::writeFile(const fs::path &file)
         for (int j = 0; j < m_columns; j++)
         {
             myfile << m_matrix[i][j];
+            LEMEMLOG((long int)(&(m_matrix[i][j])), sizeof(int), i);
 
             // Se não for o último valor, adiciona um espaço entre os valores.
             if (j + 1 < m_columns)

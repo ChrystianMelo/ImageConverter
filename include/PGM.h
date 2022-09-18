@@ -58,6 +58,8 @@ public:
      */
     ~PGM();
 
+    static std::string getDefaultExtension() { return ".pgm"; }
+
     /**
      * @brief Cria a imagem PGM a partir de uma PPM.
      *

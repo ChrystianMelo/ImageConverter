@@ -76,6 +76,7 @@ public:
      */
     ~PPM();
 
+    static std::string getDefaultExtension() { return ".ppm"; }
     /**
      * @brief Lê o arquivo com as informações graficas e armazena.
      *
