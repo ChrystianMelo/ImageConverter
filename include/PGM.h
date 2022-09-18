@@ -46,11 +46,6 @@ public:
     /**
      * @brief Contrutor da classe.
      */
-    PGM();
-
-    /**
-     * @brief Contrutor da classe.
-     */
     PGM(PPM &ppm);
 
     /**

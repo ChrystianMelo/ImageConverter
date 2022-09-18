@@ -15,14 +15,6 @@
 
 #include "PGM.h"
 
-PGM::PGM() : m_lines(0), m_columns(0), m_maxValue(0)
-{
-    // Cria a matrix.
-    m_matrix = (int **)malloc(m_lines * sizeof(int *));
-    for (int i = 0; i < m_lines; i++)
-        m_matrix[i] = (int *)malloc(m_columns * sizeof(int));
-}
-
 PGM::PGM(PPM &ppm) : m_lines(ppm.getLines()), m_columns(ppm.getColumns()), m_maxValue(ppm.getMaxValue())
 {
     // Cria a matrix.

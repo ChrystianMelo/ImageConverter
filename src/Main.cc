@@ -103,7 +103,7 @@ void parse_args(int argc,char ** argv)
 int main(int argc, char *argv[])
 {
     // Por padrão, se espera 4 entradas.
-    erroAssert(argc > 5, "Numero de argumentos minimo para execução não atingido.");
+    erroAssert(argc > 4, "Numero de argumentos minimo para execução não atingido.");
 
     // Processa os argumentos de entrada.
     fs::path inputFilename(argv[1]);
