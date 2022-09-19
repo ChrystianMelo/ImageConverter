@@ -17,77 +17,45 @@
 #include "PPM.h"
 #include "PGM.h"
 
-/*
-void parse_args(int argc,char ** argv)
-// Descricao: le as opcoes da linha de comando e inicializa variaveis
-// Entrada: argc e argv
-// Saida: optescolhida, optx, opty, regmem, lognome
+/**
+ * @brief Le as opcoes da linha de comando e inicializa variaveis
+ *
+ * @param argv Argumentos passados na execução.
+ * @param argc Quantidade de argumentos.
+ */
+void parse_args(char **argv, int argc, std::string *inputFilename, std::string *outputFilename, std::string *logFilename, bool *accessPattern)
 {
-     // variaveis externas do getopt
-     extern char * optarg;
-     extern int optind;
+    for (int i = 0; i < argc; i++)
+    {
+        std::string arg(argv[i]);
 
-     // variavel auxiliar
-     int c;
-
-     // inicializacao variaveis globais para opcoes
-     opescolhida = -1;
-     optx = -1;
-     opty = -1;
-     regmem = 0;
-     lognome[0] = 0;
-     outnome[0] = 0;
-
-     // getopt - letra indica a opcao, : junto a letra indica parametro
-     // no caso de escolher mais de uma operacao, vale a ultima
-     while ((c = getopt(argc, argv, "smtc:p:x:y:lh")) != EOF)
-       switch(c) {
-         case 'm':
-          avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-              opescolhida = OPMULTIPLICAR;
-                  break;
-         case 's':
-          avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-              opescolhida = OPSOMAR;
-                  break;
-         case 't':
-          avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-              opescolhida = OPTRANSPOR;
-                  break;
-         case 'c':
-          avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-              opescolhida = OPCRIAR;
-              strcpy(outnome,optarg);
-                  break;
-         case 'p':
-              strcpy(lognome,optarg);
-          break;
-         case 'x':
-              optx = atoi(optarg);
-          break;
-         case 'y':
-              opty = atoi(optarg);
-          break;
-         case 'l':
-              regmem = 1;
-          break;
-         case 'h':
-         default:
-                  uso();
-                  exit(1);
-
-       }
-       // verificacao da consistencia das opcoes
-       erroAssert(opescolhida>0,"matop - necessario escolher operacao");
-       erroAssert(strlen(lognome)>0,
-         "matop - nome de arquivo de registro de acesso tem que ser definido");
-       erroAssert(optx>0,"matop - dimensao X da matriz tem que ser positiva");
-       erroAssert(opty>0,"matop - dimensao Y da matriz tem que ser positiva");
-       if (opescolhida==OPCRIAR){
-         erroAssert(strlen(outnome)>0, "matop - nome de arquivo de saida tem que ser definido");
-       }
+        if (arg.compare("-i") == 0)
+        {
+            erroAssert(argc > i, "Erro: Os argumentos passados não são suficientes.");
+            std::string arg(argv[i + 1]);
+            *inputFilename = arg;
+            i++;
+        }
+        else if (arg.compare("-o") == 0)
+        {
+            erroAssert(argc > i, "Erro: Os argumentos passados não são suficientes.");
+            std::string arg(argv[i + 1]);
+            *outputFilename = arg;
+            i++;
+        }
+        else if (arg.compare("-p") == 0)
+        {
+            erroAssert(argc > i, "Erro: Os argumentos passados não são suficientes.");
+            std::string arg(argv[i + 1]);
+            *logFilename = arg;
+            i++;
+        }
+        else if (arg.compare("-l") == 0)
+        {
+            *accessPattern = true;
+        }
+    }
 }
-*/
 
 /**
  * @brief Main
@@ -103,25 +71,27 @@ void parse_args(int argc,char ** argv)
 int main(int argc, char *argv[])
 {
     // Por padrão, se espera 4 entradas.
-    erroAssert(argc > 4, "Numero de argumentos minimo para execução não atingido.");
+    // erroAssert(argc > 4, "Numero de argumentos minimo para execução não atingido.");
 
     // Processa os argumentos de entrada.
-    fs::path inputFilename(argv[1]);
-    fs::path outputFilename(argv[2]);
-    fs::path logFilename(argv[3]);
-    std::string accessPattern(argv[4]);
+    std::string inputFilename;
+    std::string outputFilename;
+    std::string logFilename;
+    bool accessPattern;
+
+    // Le os argumentos de entrada do programa.
+    parse_args(argv, argc, &inputFilename, &outputFilename, &logFilename, &accessPattern);
 
     // Trata possiveis erros com as entradas.
-    erroAssert(fs::exists(inputFilename) || inputFilename.extension() == PPM::getDefaultExtension(), "O arquivo de entrada não é válido.");
-    erroAssert(!outputFilename.empty() || outputFilename.extension() == PGM::getDefaultExtension(), "O arquivo de entrada não é válido.");
+    erroAssert(!inputFilename.empty(), "O arquivo de entrada não é válido.");
+    erroAssert(!outputFilename.empty(), "O arquivo de saida não é válido.");
     erroAssert(!logFilename.empty(), "O arquivo de log não é válido.");
-    erroAssert(!accessPattern.empty(), "O padrão de memoria não foi informado.");
 
     // Inicia o mem log.
     iniciaMemLog(logFilename.c_str());
 
     // Define o memlog de acordo com o padrão de acesso.
-    if (stoi(accessPattern) == 1)
+    if (accessPattern)
         ativaMemLog();
     else
         desativaMemLog();
