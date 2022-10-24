@@ -15,7 +15,7 @@
 
 #include "PGM.h"
 
-PGM::PGM(PPM &ppm) : m_lines(ppm.getLines()), m_columns(ppm.getColumns()), m_maxValue(ppm.getMaxValue())
+PGM::PGM(PPM &ppm) : m_lines(ppm.getLines()), m_columns(ppm.getColumns()), m_maxValue(49)
 {
     // Cria a matrix.
     m_matrix = (int **)malloc(m_lines * sizeof(int *));
